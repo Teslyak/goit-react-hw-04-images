@@ -18,7 +18,7 @@ export class App extends Component {
   render() {
     return (
       <>
-        <Searchbar getSearch={this.getSearch} />
+        <Searchbar onSubmit={this.getSearch} />
         <ImageGallery  /> 
         <Button/>
         </>
