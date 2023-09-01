@@ -8,10 +8,9 @@ export class Searchbar extends Component{
     
     handleChange = (e) => {
         this.setState({
-            search: e.target.value 
+        [e.currentTarget.name]: e.target.value 
         });
-        this.props.getSearch(e.target.value)
-        
+        this.props.getSearch(e.target.value)  
     }
     render() {
 
