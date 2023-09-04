@@ -6,11 +6,12 @@ export class Searchbar extends Component{
         
     }
     
-    handleChange = (e) => {
+  handleChange = (e) => {
+      e.preventDefault()
         this.setState({
         [e.currentTarget.name]: e.target.value 
         });
-        this.props.getSearch(e.target.value)  
+         
     }
     render() {
 
@@ -18,19 +19,21 @@ export class Searchbar extends Component{
 
         return (
             <>
-             <header class="searchbar">
-  <form class="form" onSubmit={this.handleChange}>
-    <button type="submit" class="button">
-      <span class="button-label">Search</span>
+  <header className="searchbar">
+  <form className="form" onSubmit={onSubmit(this.state.search) }>
+    <button type="submit" className="button">
+      <span className="button-label">Search</span>
     </button>
 
     <input
-      class="input"
-        type="text"
-        name="search"
-      autocomplete="off"
-      autofocus
+      onChange={this.handleChange}
+      className="input"
+      type="text"
+      name="search"
+      autoComplete="off"
+      autoFocus
       placeholder="Search images and photos"
+      value={this.state.search}
     />
   </form>
 </header>   

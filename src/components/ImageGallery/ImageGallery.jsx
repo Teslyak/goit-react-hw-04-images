@@ -1,10 +1,15 @@
+import { GallaryItem } from 'components/ImageGalleryItem/ImageGalleryItem'
 import React, { Component } from 'react'
 
 export class ImageGallery extends Component  {
 
     render() {
         return (
-            <div>ImageGallery</div>
+            <>
+             <ul className="gallery">
+            <GallaryItem/>
+            </ul>   
+            </>
         )
     }
 }
