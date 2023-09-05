@@ -1,15 +1,13 @@
 import { GallaryItem } from 'components/ImageGalleryItem/ImageGalleryItem'
-import React, { Component } from 'react'
+import React from 'react'
 
-export class ImageGallery extends Component  {
-
-    render() {
+export const ImageGallery = (props) => {
         return (
             <>
              <ul className="gallery">
-            <GallaryItem/>
+                    <GallaryItem images={props.images} />
             </ul>   
             </>
         )
-    }
+    
 }

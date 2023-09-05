@@ -1,9 +1,10 @@
 import React from 'react'
 
-export const Button = () => {
+export const Button = (props) => {
+
   return (
     <>
-    <button type="button" >Load more</button>  
+    <button type="button" onClick={(e) => props.loadMore(e)}>Load more</button>  
     </>
   )
 }
