@@ -1,10 +1,12 @@
 import React from 'react'
+import { StyledButton, StyledDivWrap } from './Buttom.styled'
 
 export const Button = (props) => {
 
   return (
-    <>
-    <button type="button" onClick={(e) => props.loadMore(e)}>Load more</button>  
-    </>
+    <StyledDivWrap>
+      <StyledButton type="button" onClick={(e) => props.loadMore(e)}>Load more</StyledButton>
+    
+    </StyledDivWrap>
   )
 }

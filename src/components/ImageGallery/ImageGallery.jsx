@@ -1,12 +1,14 @@
 import { GallaryItem } from 'components/ImageGalleryItem/ImageGalleryItem'
 import React from 'react'
+import { ImageGalleryy } from './ImageGallery.styled'
 
 export const ImageGallery = (props) => {
         return (
             <>
-             <ul className="gallery">
-                    <GallaryItem images={props.images} />
-            </ul>   
+                <ImageGalleryy>
+                    <GallaryItem images={props.images} />            
+            </ImageGalleryy>
+         
             </>
         )
     

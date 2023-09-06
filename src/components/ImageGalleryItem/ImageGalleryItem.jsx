@@ -1,10 +1,13 @@
-import ModalImage from 'react-modal-image';
+
+import { StyledModalImage } from './ImageGalleryItem.styled';
 export const GallaryItem = ({ images }) => {
     return (
         images.map(({ id, webformatURL, largeImageURL, tags }) => {
-        return < ModalImage key={id}
+            return <StyledModalImage key={id}
         small={webformatURL}
         large={largeImageURL}
-        alt={tags} />
+            alt={tags}
+            showRotate/>
+     
        }) )
 }

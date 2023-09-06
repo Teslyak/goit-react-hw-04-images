@@ -4,6 +4,8 @@ import { Button } from './Button/Button';
 import { Searchbar } from './Searchbar/Searchbar';
 import { fetchPixabay } from 'api';
 import { Audio } from 'react-loader-spinner'
+import toast, { Toaster } from 'react-hot-toast';
+import { StyledLoaderConteiner } from './App.styled';
 
 
 
@@ -13,7 +15,10 @@ export class App extends Component {
     images: [],
     page: 1,
     loadMoreVisibility: false,
-    spiner: false
+    spiner: false,
+    max_page: null,
+    per_page: 12,
+    error: false
 }
 
   
@@ -24,15 +29,21 @@ export class App extends Component {
         this.setState({
         spiner: true
         })
-      const images = await fetchPixabay(this.state.search, this.state.page)
-      const {hits} = images
+      const images = await fetchPixabay(this.state.search, this.state.page, this.state.per_page )
+      const {hits, totalHits} = images
    this.setState({
      images: [...this.state.images, ...hits],
-     
-     
+     totalHits: totalHits,
+     max_page: Math.ceil(totalHits / this.state.per_page)
    })
-   } catch (error) {
-    
+        if (this.state.page >= 1) {
+          return
+        } else {
+          toast.success(`Hooray! We found ${totalHits} images.`);
+        }
+      } catch (error) {
+        this.setState({ error: true });
+        toast.error('Something went wrong. Try again.')
       } finally {
         this.setState({
           spiner: false
@@ -43,19 +54,37 @@ export class App extends Component {
    
  
   }
+
+  
   
   loadMoreClick = (e) => {
+    if (this.state.page >= this.state.max_page) {
+      toast.error("There are no more images for this request")
+      this.setState({
+        loadMoreVisibility: true,
+        
+      })
+      return
+    }
     this.setState(prevState => ({
-      page: prevState.page + 1
+      page: prevState.page + 1,
+      
     }) 
     )
   } 
   
   getSearch = (word) => {
-    this.setState({
+    if (this.state.search !== word && word) {
+       this.setState({
       search: word,
-      images: []
+      images: [],
+      page: 1,
+      error: false
     })
+    } else if (!word){
+      toast.error("Please fill in the search field")
+    }
+   
   }
   
   render() {
@@ -63,18 +92,22 @@ export class App extends Component {
     return (
       <>
         <Searchbar onSubmit={this.getSearch} />
-        {this.state.spiner && (<Audio height="80"
+      {this.state.spiner && ( <StyledLoaderConteiner >
+        <Audio
+          height="80"
           width="80"
           radius="9"
           color="grey"
           ariaLabel="loading"
           wrapperStyle
-          wrapperClass />)}
+          wrapperClass="true"
+        />
+        </StyledLoaderConteiner>)}
           <ImageGallery images={this.state.images} />
            
-          {this.state.images.length > 0 && (<Button loadMore={this.loadMoreClick} />)}
+          {this.state.images.length > 0 && !this.state.loadMoreVisibility && (<Button loadMore={this.loadMoreClick} />)}
        
-        
+        <Toaster position="top-right" />
         </>
     );
   }
