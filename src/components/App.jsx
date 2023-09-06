@@ -36,7 +36,7 @@ export class App extends Component {
      totalHits: totalHits,
      max_page: Math.ceil(totalHits / this.state.per_page)
    })
-        if (this.state.page >= 1) {
+        if (this.state.page > 1) {
           return
         } else {
           toast.success(`Hooray! We found ${totalHits} images.`);

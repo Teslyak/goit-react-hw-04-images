@@ -33,14 +33,21 @@ export const SearchFormInput = styled.input`
   display: inline-block;
   width: 100%;
   font: inherit;
-  font-size: 20px;
+  font-size: 27px;
   border: none;
   outline: none;
   padding-left: 4px;
   padding-right: 4px;
-  ::placeholder {
-  font: inherit;
+
+  /* ::placeholder {
+  font: inherit; */
+
   font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+
+  color: #212121;
+  height: 50px;
 }
 `;
 
@@ -64,13 +71,5 @@ export const Searchbarr = styled.header`
 `;
 
 export const SearchFormButtonLabel = styled.span`
-  /* position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  clip-path: inset(50%);
-  border: 0; */
+  
 `;
