@@ -6,6 +6,8 @@ import { fetchPixabay } from 'api';
 import { Audio } from 'react-loader-spinner'
 import toast, { Toaster } from 'react-hot-toast';
 import { StyledLoaderConteiner } from './App.styled';
+import { RootStyle } from './RootStyled/RootStyled.styled';
+
 
 
 
@@ -108,6 +110,7 @@ export class App extends Component {
           {this.state.images.length > 0 && !this.state.loadMoreVisibility && (<Button loadMore={this.loadMoreClick} />)}
        
         <Toaster position="top-right" />
+        <RootStyle></RootStyle>
         </>
     );
   }
