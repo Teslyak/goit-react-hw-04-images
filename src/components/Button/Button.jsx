@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyledButton, StyledDivWrap } from './Buttom.styled'
+import PropTypes from 'prop-types'
 
 export const Button = (props) => {
 
@@ -9,4 +10,8 @@ export const Button = (props) => {
     
     </StyledDivWrap>
   )
+}
+
+Button.propTypes = {
+  loadMore: PropTypes.func
 }
