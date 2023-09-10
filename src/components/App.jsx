@@ -16,18 +16,17 @@ export const App = () => {
   const [loadMoreVisibility, setLoadMoreVisibility] = useState(false)
   const [spiner, setSpiner] = useState(false)
   const [max_page, setMax_page] = useState(null)
-  const [per_page, setPer_page] = useState(0)
-  const [error, setError] = useState(false)
+  const [per_page, setPer_page] = useState(12)
+  const [erorr, setError] = useState(false)
   
  
-  setPer_page(12)
-
+  
   
   useEffect(() => {
-    if (!search) {
+    if (!search ) {
       return
     }
-   
+    setPer_page(12)
       const getQuerySearch = async () => {
         try {
           setSpiner(true)
@@ -43,9 +42,10 @@ export const App = () => {
             toast.success(`Hooray! We found ${totalHits} images.`);
           }
         
-        } catch (err) {
+        } catch (error) {
+          console.log(erorr);
           setError(true);
-          toast.error(`${error}Something went wrong. Try again.`)
+          toast.error('Something went wrong. Try again.')
         } finally {
           setSpiner(false)
         }
@@ -56,11 +56,10 @@ export const App = () => {
       
   }
     
-   
-     
+
    
  
-, [page,search, images, per_page, error])
+, [page,search, images, per_page, erorr])
 
   
 
