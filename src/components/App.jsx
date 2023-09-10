@@ -59,7 +59,7 @@ export const App = () => {
      
    
  
-, [page,search])
+, [page,search, images, per_page])
 
   
 
