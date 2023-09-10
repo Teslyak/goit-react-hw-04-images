@@ -55,7 +55,7 @@ export const App = () => {
 
    
  
-, [page, search, erorr])
+, [page,search, images, per_page, erorr])
 
   
 
