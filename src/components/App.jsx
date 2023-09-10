@@ -16,7 +16,6 @@ export const App = () => {
   const [loadMoreVisibility, setLoadMoreVisibility] = useState(false)
   const [spiner, setSpiner] = useState(false)
   const [max_page, setMax_page] = useState(null)
-  const [per_page, setPer_page] = useState(12)
   const [erorr, setError] = useState(false)
   
  
@@ -26,15 +25,13 @@ export const App = () => {
     if (!search ) {
       return
     }
-    setPer_page(12)
+    
       const getQuerySearch = async () => {
         try {
           setSpiner(true)
-          const NewImages = await fetchPixabay(search, page, per_page)
-          const { hits, totalHits } = NewImages
-          setImages([...images, ...hits])
-          setMax_page(Math.ceil(totalHits / per_page))
-     
+          const { hits, totalHits } = await fetchPixabay(search, page)
+          setImages(prevState => [...prevState, ...hits])
+          setMax_page(Math.ceil(totalHits / 12))
    
           if (page > 1) {
             return
@@ -49,9 +46,8 @@ export const App = () => {
         } finally {
           setSpiner(false)
         }
-      }
+    }
     
-      
         getQuerySearch()
       
   }
@@ -59,7 +55,7 @@ export const App = () => {
 
    
  
-, [page,search, images, per_page, erorr])
+, [page, search, erorr])
 
   
 
