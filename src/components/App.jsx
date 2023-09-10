@@ -16,11 +16,12 @@ export const App = () => {
   const [loadMoreVisibility, setLoadMoreVisibility] = useState(false)
   const [spiner, setSpiner] = useState(false)
   const [max_page, setMax_page] = useState(null)
-  const [per_page, setPer_page] = useState(12)
-  const [erorr, setError] = useState(false)
+  const [per_page, setPer_page] = useState(0)
+  const [error, setError] = useState(false)
   
  
-  
+  setPer_page(12)
+
   
   useEffect(() => {
     if (!search) {
@@ -42,9 +43,9 @@ export const App = () => {
             toast.success(`Hooray! We found ${totalHits} images.`);
           }
         
-        } catch (error) {
+        } catch (err) {
           setError(true);
-          toast.error('Something went wrong. Try again.')
+          toast.error(`${error}Something went wrong. Try again.`)
         } finally {
           setSpiner(false)
         }
