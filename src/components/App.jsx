@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Searchbar } from './Searchbar/Searchbar';
@@ -9,92 +9,91 @@ import { StyledLoaderConteiner } from './App.styled';
 import { RootStyle } from './RootStyled/RootStyled.styled';
 
 
-
-
-export class App extends Component {
-  state = {
-    search: '',
-    images: [],
-    page: 1,
-    loadMoreVisibility: false,
-    spiner: false,
-    max_page: null,
-    per_page: 12,
-    error: false
-}
-
+export const App = () => {
+  const [search, setSearch] = useState('')
+  const [images, setImages] = useState([])
+  const [page, setPage] = useState(1)
+  const [loadMoreVisibility, setLoadMoreVisibility] = useState(false)
+  const [spiner, setSpiner] = useState(false)
+  const [max_page, setMax_page] = useState(null)
+  const [per_page, setPer_page] = useState(12)
+  const [erorr, setError] = useState(false)
   
-  async componentDidUpdate(prevProps, prevState) {
-    
-    if (prevState.search !== this.state.search || prevState.page !== this.state.page) {
-      try {
-        this.setState({
-        spiner: true
-        })
-      const images = await fetchPixabay(this.state.search, this.state.page, this.state.per_page )
-      const {hits, totalHits} = images
-   this.setState({
-     images: [...this.state.images, ...hits],
-     totalHits: totalHits,
-     max_page: Math.ceil(totalHits / this.state.per_page)
-   })
-        if (this.state.page > 1) {
-          return
-        } else {
-          toast.success(`Hooray! We found ${totalHits} images.`);
+ 
+  
+  
+  useEffect(() => {
+    if (!search) {
+      return
+    }
+   
+      const getQuerySearch = async () => {
+        try {
+          setSpiner(true)
+          const NewImages = await fetchPixabay(search, page, per_page)
+          const { hits, totalHits } = NewImages
+          setImages([...images, ...hits])
+          setMax_page(Math.ceil(totalHits / per_page))
+     
+   
+          if (page > 1) {
+            return
+          } else {
+            toast.success(`Hooray! We found ${totalHits} images.`);
+          }
+        
+        } catch (error) {
+          setError(true);
+          toast.error('Something went wrong. Try again.')
+        } finally {
+          setSpiner(false)
         }
-      } catch (error) {
-        this.setState({ error: true });
-        toast.error('Something went wrong. Try again.')
-      } finally {
-        this.setState({
-          spiner: false
-        })
-   }
-   }
+      }
+    
+      
+        getQuerySearch()
+      
+  }
+    
+   
      
    
  
-  }
+, [page,search])
+
+  
 
   
   
-  loadMoreClick = (e) => {
-    if (this.state.page >= this.state.max_page) {
+  const loadMoreClick = (e) => {
+    if (page >= max_page) {
       toast.error("There are no more images for this request")
-      this.setState({
-        loadMoreVisibility: true,
-        
-      })
+      setLoadMoreVisibility(true)
       return
-    }
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-      
-    }) 
-    )
+    } 
+    setPage(prevState => (prevState + 1)) 
   } 
   
-  getSearch = (word) => {
-    if (this.state.search !== word && word) {
-       this.setState({
-      search: word,
-      images: [],
-      page: 1,
-      error: false
-    })
-    } else if (!word){
+  const getSearch = (word) => {
+    if (search !== word && word) {
+      setSearch(word)
+      setImages([])
+      setPage(1)
+      setError(false)
+      setLoadMoreVisibility(false)
+    }
+     else if (!word){
       toast.error("Please fill in the search field")
     }
    
   }
   
-  render() {
+  
    
     return (
       <>
-        <Searchbar onSubmit={this.getSearch} />
-      {this.state.spiner && ( <StyledLoaderConteiner >
+        <Searchbar onSubmit={getSearch} />
+      {spiner && ( <StyledLoaderConteiner >
         <Audio
           height="80"
           width="80"
@@ -105,13 +104,13 @@ export class App extends Component {
           wrapperClass="true"
         />
         </StyledLoaderConteiner>)}
-          <ImageGallery images={this.state.images} />
+          <ImageGallery images={images} />
            
-          {this.state.images.length > 0 && !this.state.loadMoreVisibility && (<Button loadMore={this.loadMoreClick} />)}
+          {images.length > 0 && !loadMoreVisibility && (<Button loadMore={loadMoreClick} />)}
        
         <Toaster position="top-right" />
         <RootStyle></RootStyle>
         </>
     );
   }
-};
+

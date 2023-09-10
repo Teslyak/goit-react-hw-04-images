@@ -1,32 +1,23 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { SearchForm, SearchFormButton, SearchFormButtonLabel, SearchFormInput, Searchbarr } from './Searchbar.styled';
 import PropTypes from 'prop-types'
 
-export class Searchbar extends Component{
-    state = {
-        search: ''
-        
-    }
+export const Searchbar = (props) => {
+
+  const [search, setSearch] = useState('')    
     
-  handleChange = (e) => {
-      
-        this.setState({
-        [e.currentTarget.name]: e.target.value 
-        });
-         
+ const handleChange = (e) => {
+    setSearch(e.target.value)
   }
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
-    this.props.onSubmit(this.state.search.trim())
+    props.onSubmit(search.trim())
 
   }
-    render() {
-
-
 
         return (
           <>
-      <Searchbarr> <SearchForm onSubmit={this.onSubmit}>
+      <Searchbarr> <SearchForm onSubmit={onSubmit}>
               <SearchFormButton type="submit">
                 <SearchFormButtonLabel>
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -37,14 +28,14 @@ export class Searchbar extends Component{
       
         </SearchFormButton>
              
-        <SearchFormInput onChange={this.handleChange}
+        <SearchFormInput onChange={handleChange}
       className="input"
       type="text"
       name="search"
       autoComplete="off"
       autoFocus
       placeholder="Search images and photos"
-      value={this.state.search}/>
+      value={search}/>
     
               </SearchForm>        </Searchbarr>
   
@@ -52,7 +43,7 @@ export class Searchbar extends Component{
             </>
         )
     }
-}
+
 
 
 Searchbar.propTypes = {
